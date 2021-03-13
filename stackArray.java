@@ -5,12 +5,14 @@ public class stackArray
   int size,head;
   Scanner sc;
 
-  stackArray(int n)
+  stackArray()
   {
-    size=n;
-    stack = new int[n];
-    head=0;
+    System.out.println("enter the size of stack");
     sc=new Scanner(System.in);
+    size=Integer.valueOf(sc.nextLine());
+    stack = new int[size];
+    head=0;
+
   }
   void display()
   {
@@ -36,15 +38,13 @@ public class stackArray
   }
 
   public static void main(String[] args) {
-    System.out.println("enter the size of stack");
-    Scanner sc=new Scanner(System.in);
-    stackArray stack=new stackArray(Integer.valueOf(sc.nextLine()));
+    stackArray stack=new stackArray();
     System.out.println("\t\tMenu\n1) push\n2) pop\n3) top\n4) display\n5) quit");
     int choice=0;
     do
     {
       System.out.println("enter your choice");
-      choice=Integer.valueOf(sc.nextLine());
+      choice=Integer.valueOf(stack.sc.nextLine());
       switch (choice)
       {
         case 1:stack.push();break;
