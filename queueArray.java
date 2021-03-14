@@ -30,9 +30,10 @@ public class queueArray
     if (head==0) System.out.println("queue is empty");
     else
     {
+      System.out.println("dequeued "+ queue[0]);
       for (int i=1;i<head;i++)
         queue[i-1]=queue[i];
-      System.out.println("dequeued "+ queue[--head]);
+        head--;
     }
   }
 
