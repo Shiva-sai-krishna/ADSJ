@@ -1,0 +1,276 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    struct Node *left,*right;
+    int data;
+}node;
+
+node * insert(node * r,int ele);
+node * delete(node * r,int ele);
+int search(node *r,int ele);
+int height(node *r);
+void preorder(node *r);
+void inorder(node *r);
+void postorder(node *r);
+int main(void)
+{
+    node *p;
+    int ele,choice;
+    char s[10];
+    p=NULL;
+    do
+    {
+        printf("1. insert\n2. search\n3. display in preorder\n4. display in inorder\n5. display in postorder\n6. delete a number\n7. maximum height of tree\n8. exit\nenter your choice\n");
+        scanf("%d",&choice);
+        switch (choice)
+        {
+            case 1:printf("enter the element\n");
+                scanf("%d",&ele);
+                p=insert (p,ele);
+                break;
+            
+            case 2: printf("enter the element to be searched\n");
+                    scanf("%d",&ele);
+                    if (search(p,ele))
+                        printf("%d is found\n",ele);
+                    else
+                        printf("%d is not found\n",ele);
+                    break;
+            case 3: if (p!=NULL)
+                    {
+                        preorder(p);
+                        printf("\n");
+                    }
+                    else
+                        printf("the tree is empty\n");
+                    break;
+            case 4: if (p!=NULL)
+                    {
+                        inorder(p);
+                        printf("\n");
+                    }
+                    else
+                        printf("the tree is empty\n");                   
+                    break;
+            case 5: if (p!=NULL)
+                    {
+                        postorder(p);
+                        printf("\n");
+                    }
+                    else
+                        printf("the tree is empty\n");
+                    break;
+            case 6: printf("enter the number to be deleted\n");
+                    scanf("%d",&ele);
+                    if (search(p,ele))
+                        p=delete(p,ele);
+                    else
+                        printf("%d could not be deleted\n",ele);
+                    break;
+            case 7: printf ("the height of tree is %d\n",height(p));
+                    break;
+            case 8: break;
+            default : printf("dude you had one job\n");
+        }
+    }while (choice!=8);
+    return 0;
+}
+
+node * insert(node * r,int ele)
+{
+    if (r==NULL)
+    {
+        r=(node *)malloc(sizeof(node));
+        r->left=NULL;
+        r->right=NULL;
+        r->data=ele;
+        return r;
+    }
+    else
+    {
+        if (ele<r->data)
+        {
+            r->left=insert(r->left,ele);
+            return r;
+        }
+        else
+        {
+            r->right=insert(r->right,ele);
+             return r;
+        }
+    }
+}
+
+int search(node *r,int ele)
+{
+    if (r==NULL)
+        return 0;
+    else if (ele<r->data)
+        return search(r->left,ele);
+    else if (ele>r->data)
+        return search(r->right,ele);
+    else
+        return 1;
+}
+
+void preorder(node *r)
+{
+    if (r!=NULL)
+    {
+        printf("%d ",r->data);
+        preorder(r->left);
+        preorder(r->right);
+    }
+}
+
+void inorder(node *r)
+{
+    if (r!=NULL)
+    {
+        inorder(r->left);
+        printf("%d ",r->data);
+        inorder(r->right);
+    }
+}
+
+void postorder(node *r)
+{
+    if (r!=NULL)
+    {
+        postorder(r->left);
+        postorder(r->right);
+        printf("%d ",r->data);
+    }
+}
+
+node * delete(node * r,int ele)
+{
+    node *tn;
+    if (r==NULL)
+        return NULL;
+    else if (ele<r->data)
+        r->left=delete(r->left,ele);
+    else if (ele>r->data)
+        r->right=delete(r->right,ele);
+    else
+    {
+        if ((r->left==NULL)&&(r->right==NULL))
+        {
+            free (r);
+            r=NULL;
+            return NULL;
+        }
+        else if (r->left==NULL)
+        {
+            return r->right;
+        }
+        else if (r->right==NULL)
+        {
+            return r->left;
+        }
+        else
+        {
+            tn=r->left;
+            while (tn->right!=NULL)
+                tn=tn->right;
+            r->data=tn->data;
+            r->left=delete(tn,tn->data);
+            return r;
+        }
+    }
+}
+
+int height(node *r)
+{
+    int l,ri;
+    if (r!=NULL)
+    {
+        l=height(r->left);
+        ri=height(r->right);
+        if (l>ri)
+            return 1+l;
+        else
+            return 1+ri;
+    }
+    else
+        return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node
+{
+    struct node * left;
+    struct node * right;
+    int data;
+}node;
+
+node * insert(node * root,int ele);
+
+int main()
+{
+    node *root = NULL;
+    int choice,ele;
+    printf("    MENU\n1: insert\n2: search\n3: inorder\n4: postorder\n5: preorder\n6: depth\n7: height\n8: delete\n 9: quit\nenter your choice\n");
+    do
+    {
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                printf("enter the ele to be inserted\n");
+                scanf("%d",&ele);
+                root=insert(root,ele);
+                break;
+            case 2:break;
+            case 3:break;
+            case 4:break;
+            case 5:break;
+            case 6:break;
+            case 7:break;
+            case 8:break;
+            case 9:break;
+            default: printf("typo dude\n");
+        }
+    }while (choice != 9);
+    return 0;
+}
+
+node * insert(node * root,int ele)
+{
+    if (root==NULL)
+    {
+        root=(node *)malloc(sizeof(node));
+        root->left=NULL;
+        root->right=NULL;
+        root->data=ele;
+    }
+    else if (root->data>=ele)
+        root->left=insert(root->left,ele);
+    else
+        root->right=insert(root->right,ele);
+    return root;
+}

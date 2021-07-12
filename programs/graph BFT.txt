@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct queue
+{
+    int v[20];
+    int head;
+};
+void enqueue(struct queue *q,int node);
+void dequeue(struct queue *q);
+void BFT(int **am,int snode,struct queue *q,int nodes,int *e);
+int check(struct queue *q,int node);
+int main(void)
+{
+    int nodes,**am,edges,i,snode,enode,*e;
+    char d[5];
+    struct queue *q;
+    printf("enter the number of nodes\n");
+    scanf("%d",&nodes);
+    printf("enter the number of edges\n");
+    scanf("%d",&edges);
+    am=(int **)malloc(nodes*sizeof(int *));
+    for (i=0;i<nodes;i++)
+        *(am+i)=(int *)malloc(sizeof(int));
+    e=(int *)malloc(nodes*sizeof(int));
+    q=(struct queue *)malloc(sizeof(struct queue));
+    q->head=0;
+    printf("is the graph directed? (yes/no)\n");
+    scanf("%s", d);
+    if (strcmp("yes",d)==0)
+    {
+        for (i=0;i<edges;i++)
+        {
+            printf("enter the initial node, final node and weight of edge no %d",i+1);
+            scanf("%d%d",&snode,&enode);
+            scanf("%d",&am[snode][enode]);
+        }
+    }
+    else
+    {
+        for (i=0;i<edges;i++)
+        {
+            printf ("enter the start node, end node and weight of node no %d\n",i+1);
+            scanf("%d%d",&snode,&enode);
+            scanf("%d",&am[snode][enode]);
+            am[enode][snode]=am[snode][enode];
+        }
+    }
+    printf("enter the first node for BFT\n");
+    scanf("%d",&snode);
+    enqueue(q,snode);
+    e[snode]=1;
+    printf("%d ",snode);
+    BFT(am,snode,q,nodes,e);
+    return 0;
+}
+
+void enqueue(struct queue *q,int node)
+{
+    q->v[q->head++]=node;
+}
+
+void dequeue(struct queue *q)
+{
+    int i;
+    for (i=1;i<q->head;i++)
+        q->v[i-1]=q->v[i];
+    q->head--;
+}
+
+void BFT(int **am,int snode,struct queue *q,int nodes,int *e)
+{
+    int i;
+    dequeue (q);
+    for (i=0;i<nodes;i++)
+    {
+        if ((am[snode][i]!=0)&&(e[i]!=1))
+        {
+            enqueue (q,i);
+            e[i]=1;
+            printf("%d ",i);
+        }
+    }
+    while (q->head!=0)
+        BFT (am,q->v[0],q,nodes,e);
+}
